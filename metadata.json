@@ -1,0 +1,6 @@
+{
+  "name": "InAmigos NGO",
+  "description": "Empowering Communities Together - A responsive NGO awareness webpage featuring sustainable social impact initiatives, real-time impact metrics, and interactive engagement with dark mode support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
