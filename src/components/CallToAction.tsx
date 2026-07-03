@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, HeartHandshake, Handshake, Share2, Sparkles, ArrowRight } from 'lucide-react';
+import { Heart, HeartHandshake, Handshake, Share2, ArrowRight } from 'lucide-react';
 import { ModalType } from '../types';
 
 interface CallToActionProps {
@@ -59,8 +59,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({ onOpenModal }) => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#4CAF50]/20 text-[#2E7D32] dark:text-[#C8E6C9] text-xs font-heading font-semibold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-[#4CAF50]" />
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#4CAF50]/20 text-[#2E7D32] dark:text-[#C8E6C9] text-xs font-heading font-semibold uppercase tracking-wider mb-3">
             <span>Take Action Today</span>
           </div>
           <h2 className="font-heading font-bold text-4xl sm:text-6xl text-[#2E7D32] dark:text-[#C8E6C9] tracking-tight mb-4">
@@ -80,15 +79,15 @@ export const CallToAction: React.FC<CallToActionProps> = ({ onOpenModal }) => {
             return (
               <div
                 key={idx}
-                className={`p-8 rounded-3xl transition-all duration-300 flex flex-col justify-between border relative group ${
+                className={`p-8 rounded-3xl transition-all duration-1000 ease-in-out flex flex-col justify-between border relative group ${
                   option.isPrimary
-                    ? 'bg-white dark:bg-[#1c3220] border-[#4CAF50] shadow-xl hover:shadow-2xl hover:-translate-y-1.5 ring-2 ring-[#4CAF50]/20'
-                    : 'bg-white/80 dark:bg-[#162719] border-[#C8E6C9] dark:border-green-800/60 shadow-md hover:shadow-xl hover:-translate-y-1'
+                    ? 'bg-white dark:bg-[#1c3220] border-[#4CAF50] shadow-xl hover:shadow-2xl hover:-translate-y-0.5 ring-2 ring-[#4CAF50]/20'
+                    : 'bg-white/80 dark:bg-[#162719] border-[#C8E6C9] dark:border-green-800/60 shadow-md hover:shadow-xl hover:-translate-y-0.5'
                 }`}
               >
                 {/* Badge */}
                 <div className="flex items-center justify-between mb-6">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 duration-300 ${
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-[1.02] duration-1000 ease-in-out ${
                     option.isPrimary
                       ? 'bg-[#4CAF50] text-white shadow-md'
                       : 'bg-[#C8E6C9]/60 dark:bg-[#2E7D32]/40 text-[#2E7D32] dark:text-[#C8E6C9]'
@@ -118,14 +117,14 @@ export const CallToAction: React.FC<CallToActionProps> = ({ onOpenModal }) => {
                 {/* Action Button */}
                 <button
                   onClick={() => onOpenModal(option.type)}
-                  className={`w-full py-4 px-6 rounded-2xl font-heading font-bold text-base flex items-center justify-center gap-2 shadow-md transition-all duration-200 group-hover:shadow-lg ${
+                  className={`w-full py-4 px-6 rounded-2xl font-heading font-bold text-base flex items-center justify-center gap-2 shadow-md transition-all duration-700 ease-in-out group-hover:shadow-lg hover:scale-[1.01] ${
                     option.isPrimary
                       ? 'bg-[#4CAF50] hover:bg-[#45a049] text-white'
                       : 'bg-transparent hover:bg-[#4CAF50]/10 border-2 border-[#4CAF50] text-[#2E7D32] dark:text-[#C8E6C9]'
                   }`}
                 >
                   <span>{option.buttonText}</span>
-                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="w-5 h-5 transition-transform duration-700 ease-in-out group-hover:translate-x-1" />
                 </button>
               </div>
             );

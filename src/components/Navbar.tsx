@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, Sprout, Heart, Settings, Monitor, Check } from 'lucide-react';
+import { Menu, X, Sun, Moon, Heart, Settings, Monitor, Check } from 'lucide-react';
 import { ThemeMode, ModalType } from '../types';
+import { InAmigosLogo } from './InAmigosLogo';
 
 interface NavbarProps {
   isDark: boolean;
@@ -38,6 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { name: 'About', href: '#about' },
     { name: 'Projects', href: '#projects' },
     { name: 'Impact', href: '#impact' },
+    { name: 'Gallery', href: '#gallery' },
     { name: 'Get Involved', href: '#get-involved' },
   ];
 
@@ -64,19 +66,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           <a
             href="#home"
             onClick={(e) => handleNavClick(e, '#home')}
-            className="flex items-center gap-2.5 group focus:outline-none"
+            className="flex items-center group focus:outline-none"
           >
-            <div className="w-10 h-10 rounded-full bg-[#4CAF50]/15 dark:bg-[#4CAF50]/20 flex items-center justify-center text-[#4CAF50] group-hover:bg-[#4CAF50] group-hover:text-white transition-all duration-300 shadow-sm">
-              <Sprout className="w-6 h-6 transition-transform group-hover:scale-110 duration-300" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-heading font-bold text-xl sm:text-2xl tracking-tight text-[#2E7D32] dark:text-[#C8E6C9]">
-                In<span className="text-[#4CAF50]">Amigos</span>
-              </span>
-              <span className="text-[10px] tracking-widest uppercase text-gray-500 dark:text-gray-400 font-medium -mt-1">
-                Social Impact NGO
-              </span>
-            </div>
+            <InAmigosLogo layout="horizontal" size="md" />
           </a>
 
           {/* Desktop Navigation */}
@@ -101,7 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={onToggleTheme}
                 aria-label="Toggle dark mode"
                 title={`Current: ${isDark ? 'Dark Mode' : 'Light Mode'} (Click to switch)`}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#2E7D32] text-gray-800 dark:text-white shadow-sm transition-all duration-300 hover:scale-105"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#2E7D32] text-gray-800 dark:text-white shadow-sm transition-all duration-700 ease-in-out hover:scale-[1.015]"
               >
                 {isDark ? (
                   <>
@@ -206,9 +198,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Primary CTA Button */}
             <button
               onClick={() => onOpenModal('donate')}
-              className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#4CAF50] hover:bg-[#45a049] text-white font-heading font-semibold text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-200"
+              className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#4CAF50] hover:bg-[#45a049] text-white font-heading font-semibold text-sm shadow-md hover:shadow-lg hover:scale-[1.015] active:scale-95 transition-all duration-700 ease-in-out"
             >
-              <Heart className="w-4 h-4 fill-current transition-transform group-hover:scale-110 duration-200" />
+              <Heart className="w-4 h-4 fill-current transition-transform duration-700 ease-in-out group-hover:scale-[1.02]" />
               <span>Donate Now</span>
             </button>
           </div>

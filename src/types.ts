@@ -34,6 +34,19 @@ export interface Testimonial {
   projectImpacted: string;
 }
 
+export interface BlogArticle {
+  id: string;
+  title: string;
+  date: string;
+  category: string;
+  commentsCount: number;
+  viewsCount: number;
+  imageUrl: string;
+  readTime: string;
+  summary: string;
+  fullContent: string;
+}
+
 export interface ImpactStory {
   id: string;
   title: string;
@@ -57,6 +70,7 @@ export type ModalType =
   | 'spread-word' 
   | 'project-details' 
   | 'story-details'
+  | 'blog-details'
   | 'settings';
 
 export interface DonationReceipt {

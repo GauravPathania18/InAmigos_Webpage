@@ -9,17 +9,19 @@ import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Projects } from './components/Projects';
 import { SocialImpact } from './components/SocialImpact';
+import { Gallery } from './components/Gallery';
 import { CallToAction } from './components/CallToAction';
 import { Footer } from './components/Footer';
 import { Modal } from './components/Modal';
 import { useDarkMode } from './hooks/useDarkMode';
-import { ModalType, Project, ImpactStory } from './types';
+import { ModalType, Project, ImpactStory, BlogArticle } from './types';
 
 export default function App() {
   const { themeMode, setThemeMode, isDark, toggleTheme } = useDarkMode();
   const [modalType, setModalType] = useState<ModalType>('none');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedStory, setSelectedStory] = useState<ImpactStory | null>(null);
+  const [selectedArticle, setSelectedArticle] = useState<BlogArticle | null>(null);
 
   const handleOpenModal = (type: ModalType, project?: Project) => {
     setModalType(type);
@@ -31,6 +33,11 @@ export default function App() {
   const handleSelectStory = (story: ImpactStory) => {
     setSelectedStory(story);
     setModalType('story-details');
+  };
+
+  const handleSelectArticle = (article: BlogArticle) => {
+    setSelectedArticle(article);
+    setModalType('blog-details');
   };
 
   return (
@@ -66,7 +73,12 @@ export default function App() {
 
         {/* Social Impact & Accountability Bento Grid */}
         <div className="rounded-3xl border border-[#C8E6C9] dark:border-green-800/60 shadow-sm overflow-hidden bg-white dark:bg-[#152618]">
-          <SocialImpact onSelectStory={handleSelectStory} />
+          <SocialImpact onSelectStory={handleSelectStory} onSelectArticle={handleSelectArticle} />
+        </div>
+
+        {/* Gallery Bento Grid */}
+        <div className="rounded-3xl border border-[#C8E6C9] dark:border-green-800/60 shadow-sm overflow-hidden bg-[#F8FDF8] dark:bg-[#122214]">
+          <Gallery />
         </div>
 
         {/* Call to Action Bento Grid */}
@@ -83,10 +95,16 @@ export default function App() {
         type={modalType}
         project={selectedProject}
         story={selectedStory}
+        article={selectedArticle}
         onClose={() => {
           setModalType('none');
           setSelectedProject(null);
           setSelectedStory(null);
+          setSelectedArticle(null);
+        }}
+        onOpenDonate={(proj) => {
+          setSelectedProject(proj);
+          setModalType('donate');
         }}
       />
     </div>

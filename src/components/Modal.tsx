@@ -1,16 +1,150 @@
 import React, { useState } from 'react';
-import { X, Heart, HeartHandshake, Handshake, Share2, CheckCircle2, DollarSign, Calendar, MapPin, Users, Award, ShieldCheck, Sparkles, Copy, Check } from 'lucide-react';
-import { ModalType, Project, ImpactStory } from '../types';
+import { X, Heart, HeartHandshake, Handshake, Share2, CheckCircle2, DollarSign, Calendar, MapPin, Users, Award, ShieldCheck, Sparkles, Copy, Check, Eye, MessageSquare, AlignLeft } from 'lucide-react';
+import { ModalType, Project, ImpactStory, BlogArticle } from '../types';
 import { IconRenderer } from './IconRenderer';
+
+const renderFormattedText = (text: string) => {
+  const parseInline = (line: string) => {
+    const parts = line.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return (
+          <strong key={i} className="font-semibold text-gray-950 dark:text-white">
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+      return part;
+    });
+  };
+
+  return text.split('\n\n').map((block, idx) => {
+    if (block.startsWith('### ')) {
+      return (
+        <h3
+          key={idx}
+          className="font-heading font-bold text-xl sm:text-2xl text-[#2E7D32] dark:text-[#C8E6C9] mt-8 mb-4 border-b border-gray-200 dark:border-green-800/40 pb-2.5"
+        >
+          {parseInline(block.replace('### ', ''))}
+        </h3>
+      );
+    }
+    if (block.startsWith('#### ')) {
+      return (
+        <h4
+          key={idx}
+          className="font-heading font-bold text-lg sm:text-xl text-gray-900 dark:text-white mt-6 mb-3"
+        >
+          {parseInline(block.replace('#### ', ''))}
+        </h4>
+      );
+    }
+
+    const lines = block.split('\n');
+    const isList = lines.some(
+      (l) =>
+        l.trim().startsWith('•') ||
+        l.trim().startsWith('✅') ||
+        l.trim().match(/^\d+\./) ||
+        l.trim().startsWith('#### ') ||
+        l.trim().startsWith('### ')
+    );
+
+    if (isList || lines.length > 1) {
+      return (
+        <div key={idx} className="space-y-3 my-4">
+          {lines.map((line, lIdx) => {
+            const trimmed = line.trim();
+            if (!trimmed) return null;
+            if (trimmed.startsWith('•') || trimmed.startsWith('✅')) {
+              const icon = trimmed.startsWith('✅') ? '✅' : '•';
+              const content = trimmed.slice(icon.length).trim();
+              return (
+                <div
+                  key={lIdx}
+                  className="flex items-start gap-3 text-[#333333] dark:text-gray-300 font-sans text-sm sm:text-base leading-relaxed"
+                >
+                  <span
+                    className={
+                      icon === '•'
+                        ? 'text-[#4CAF50] font-bold text-xl leading-none mt-0.5'
+                        : 'mt-1 shrink-0'
+                    }
+                  >
+                    {icon === '•' ? '•' : '✅'}
+                  </span>
+                  <div className="flex-1">{parseInline(content)}</div>
+                </div>
+              );
+            }
+            if (trimmed.startsWith('### ')) {
+              return (
+                <h3
+                  key={lIdx}
+                  className="font-heading font-bold text-xl sm:text-2xl text-[#2E7D32] dark:text-[#C8E6C9] mt-8 mb-4 border-b border-gray-200 dark:border-green-800/40 pb-2.5"
+                >
+                  {parseInline(trimmed.replace('### ', ''))}
+                </h3>
+              );
+            }
+            if (trimmed.startsWith('#### ')) {
+              return (
+                <h4
+                  key={lIdx}
+                  className="font-heading font-bold text-lg sm:text-xl text-gray-900 dark:text-white mt-6 mb-3"
+                >
+                  {parseInline(trimmed.replace('#### ', ''))}
+                </h4>
+              );
+            }
+            if (trimmed.match(/^\d+\.\s/)) {
+              const match = trimmed.match(/^(\d+\.)\s(.*)/);
+              if (match) {
+                return (
+                  <div
+                    key={lIdx}
+                    className="flex items-start gap-3 text-[#333333] dark:text-gray-300 font-sans text-sm sm:text-base leading-relaxed mt-2"
+                  >
+                    <span className="font-bold text-[#4CAF50] shrink-0 mt-0.5">{match[1]}</span>
+                    <div className="flex-1">{parseInline(match[2])}</div>
+                  </div>
+                );
+              }
+            }
+            return (
+              <p
+                key={lIdx}
+                className="text-[#333333] dark:text-gray-300 font-sans text-sm sm:text-base leading-relaxed"
+              >
+                {parseInline(trimmed)}
+              </p>
+            );
+          })}
+        </div>
+      );
+    }
+
+    return (
+      <p
+        key={idx}
+        className="text-[#333333] dark:text-gray-300 font-sans text-sm sm:text-base leading-relaxed my-4"
+      >
+        {parseInline(block)}
+      </p>
+    );
+  });
+};
 
 interface ModalProps {
   type: ModalType;
   project?: Project | null;
   story?: ImpactStory | null;
+  article?: BlogArticle | null;
   onClose: () => void;
+  onOpenDonate?: (project: Project) => void;
 }
 
-export const Modal: React.FC<ModalProps> = ({ type, project, story, onClose }) => {
+export const Modal: React.FC<ModalProps> = ({ type, project, story, article, onClose, onOpenDonate }) => {
   const [donationAmount, setDonationAmount] = useState<number>(50);
   const [customAmount, setCustomAmount] = useState<string>('');
   const [donationFrequency, setDonationFrequency] = useState<'one-time' | 'monthly' | 'annually'>('one-time');
@@ -178,9 +312,9 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, onClose }) =
                             setDonationAmount(amt);
                             setCustomAmount('');
                           }}
-                          className={`py-3 rounded-2xl font-heading font-bold text-sm border transition-all ${
+                          className={`py-3 rounded-2xl font-heading font-bold text-sm border transition-all duration-500 ease-in-out ${
                             donationAmount === amt && !customAmount
-                              ? 'bg-[#2E7D32] text-white border-[#2E7D32] shadow-md scale-105'
+                              ? 'bg-[#2E7D32] text-white border-[#2E7D32] shadow-md scale-[1.02]'
                               : 'bg-white dark:bg-[#1a2e1e] text-[#2E7D32] dark:text-gray-200 border-[#C8E6C9] dark:border-green-800/60 hover:border-[#4CAF50]'
                           }`}
                         >
@@ -330,9 +464,9 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, onClose }) =
 
                   <button
                     type="submit"
-                    className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#4CAF50] to-[#2E7D32] hover:from-[#45a049] hover:to-[#256327] text-white font-heading font-bold text-base shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2"
+                    className="w-full px-6 py-4 rounded-2xl bg-gradient-to-r from-[#4CAF50] to-[#2E7D32] hover:from-[#45a049] hover:to-[#256327] text-white font-heading font-bold text-base shadow-xl hover:shadow-2xl hover:scale-[1.01] active:scale-95 transition-all duration-700 ease-in-out flex items-center justify-center gap-2"
                   >
-                    <Heart className="w-5 h-5 fill-current" />
+                    <Heart className="w-5 h-5 fill-current shrink-0" />
                     <span>Complete Tax-Deductible Donation (${donationAmount || 0})</span>
                   </button>
                 </form>
@@ -430,9 +564,9 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, onClose }) =
 
                   <button
                     type="submit"
-                    className="w-full py-4 rounded-2xl bg-[#4CAF50] hover:bg-[#45a049] text-white font-heading font-bold text-base shadow-lg transition-all flex items-center justify-center gap-2"
+                    className="w-full px-6 py-4 rounded-2xl bg-[#4CAF50] hover:bg-[#45a049] text-white font-heading font-bold text-base shadow-lg transition-all duration-700 ease-in-out hover:scale-[1.01] flex items-center justify-center gap-2"
                   >
-                    <HeartHandshake className="w-5 h-5" />
+                    <HeartHandshake className="w-5 h-5 shrink-0" />
                     <span>Submit Volunteer Application</span>
                   </button>
                 </form>
@@ -495,7 +629,7 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, onClose }) =
 
                   <button
                     type="submit"
-                    className="w-full py-4 rounded-2xl bg-[#2E7D32] hover:bg-[#4CAF50] text-white font-heading font-bold text-base shadow-lg transition-all flex items-center justify-center gap-2"
+                    className="w-full py-4 rounded-2xl bg-[#2E7D32] hover:bg-[#4CAF50] text-white font-heading font-bold text-base shadow-lg transition-all duration-700 ease-in-out hover:scale-[1.01] flex items-center justify-center gap-2"
                   >
                     <Handshake className="w-5 h-5" />
                     <span>Send Partnership Inquiry</span>
@@ -567,7 +701,7 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, onClose }) =
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="p-3 rounded-xl bg-[#F5F5F5] dark:bg-[#0d1a0f] border border-[#C8E6C9] dark:border-green-800/60">
                       <span className="text-[10px] uppercase text-[#757575] font-bold block">Location</span>
                       <span className="text-xs font-semibold text-[#2E7D32] dark:text-white flex items-center gap-1 mt-0.5">
@@ -576,16 +710,10 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, onClose }) =
                       </span>
                     </div>
                     <div className="p-3 rounded-xl bg-[#F5F5F5] dark:bg-[#0d1a0f] border border-[#C8E6C9] dark:border-green-800/60">
-                      <span className="text-[10px] uppercase text-[#757575] font-bold block">Beneficiaries</span>
+                      <span className="text-[10px] uppercase text-[#757575] font-bold block">Impact Achieved</span>
                       <span className="text-xs font-semibold text-[#2E7D32] dark:text-white flex items-center gap-1 mt-0.5">
                         <Users className="w-3.5 h-3.5 text-[#4CAF50]" />
                         {project.impactMetric}
-                      </span>
-                    </div>
-                    <div className="col-span-2 sm:col-span-1 p-3 rounded-xl bg-[#F5F5F5] dark:bg-[#0d1a0f] border border-[#C8E6C9] dark:border-green-800/60">
-                      <span className="text-[10px] uppercase text-[#757575] font-bold block">Funding Target</span>
-                      <span className="text-xs font-semibold text-[#4CAF50] mt-0.5 block">
-                        ${project.raised.toLocaleString()} / ${project.goal.toLocaleString()}
                       </span>
                     </div>
                   </div>
@@ -609,16 +737,18 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, onClose }) =
                     </ul>
                   </div>
 
-                  <div className="pt-2">
+                  <div className="pt-3">
                     <button
                       onClick={() => {
-                        onClose();
-                        // open donate modal after tiny timeout or just let parent handle it
+                        if (onOpenDonate && project) {
+                          onOpenDonate(project);
+                        } else {
+                          onClose();
+                        }
                       }}
-                      className="w-full py-4 rounded-2xl bg-[#4CAF50] hover:bg-[#45a049] text-white font-heading font-bold text-base shadow-lg transition-all flex items-center justify-center gap-2"
+                      className="w-full px-6 py-4 rounded-2xl bg-gradient-to-r from-[#2E7D32] to-[#4CAF50] hover:from-[#256329] hover:to-[#439c47] text-white font-heading font-bold text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-[1.01] active:scale-[0.99] transition-all duration-700 ease-in-out text-center tracking-wide block"
                     >
-                      <Heart className="w-5 h-5 fill-current" />
-                      <span>Donate Directly to {project.title}</span>
+                      Donate Directly — {project.title.split(':')[0]}
                     </button>
                   </div>
                 </div>
@@ -665,6 +795,55 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, onClose }) =
                       className="px-4 py-2 rounded-xl bg-[#2E7D32] text-white font-heading font-semibold text-xs hover:bg-[#4CAF50] transition-colors"
                     >
                       Share Story
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* BLOG DETAILS MODAL */}
+              {type === 'blog-details' && article && (
+                <div className="space-y-6">
+                  <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden shadow-md">
+                    <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <span className="px-3 py-1 rounded-full bg-[#4CAF50] text-white font-heading font-semibold text-xs mb-2 inline-block">
+                        {article.category}
+                      </span>
+                      <h4 className="font-heading font-bold text-xl sm:text-3xl text-white leading-tight">{article.title}</h4>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-4 text-xs sm:text-sm text-[#757575] dark:text-gray-400 border-b border-[#C8E6C9] dark:border-green-800/60 pb-3">
+                    <div className="flex items-center gap-4">
+                      <span className="flex items-center gap-1.5 font-medium text-[#2E7D32] dark:text-[#C8E6C9]">
+                        <Calendar className="w-4 h-4 text-[#4CAF50]" />
+                        {article.date}
+                      </span>
+                      <span className="flex items-center gap-1.5 font-medium">
+                        <Eye className="w-4 h-4 text-[#4CAF50]" />
+                        {article.viewsCount} views
+                      </span>
+                    </div>
+                    <span className="font-semibold px-3 py-1 rounded-full bg-[#C8E6C9]/40 dark:bg-green-900/40 text-[#2E7D32] dark:text-[#C8E6C9]">
+                      {article.readTime}
+                    </span>
+                  </div>
+
+                  <div className="text-sm sm:text-base text-[#333333] dark:text-gray-300 leading-relaxed font-sans">
+                    {renderFormattedText(article.fullContent)}
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-[#F5F5F5] dark:bg-[#0d1a0f] border border-[#C8E6C9] dark:border-green-800/60 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-[#757575] dark:text-gray-400 font-medium">InAmigos Foundation Official Blogs</span>
+                    </div>
+                    <button
+                      onClick={() => alert("Thank you for sharing this article from InAmigos Foundation!")}
+                      className="px-4 py-2 rounded-xl bg-[#2E7D32] text-white font-heading font-semibold text-xs hover:bg-[#4CAF50] transition-colors flex items-center gap-1.5"
+                    >
+                      <Share2 className="w-3.5 h-3.5" />
+                      Share Article
                     </button>
                   </div>
                 </div>

@@ -49,9 +49,9 @@ export const Projects: React.FC<ProjectsProps> = ({
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-heading font-semibold transition-all duration-200 ${
+              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-heading font-semibold transition-all duration-500 ease-in-out ${
                 selectedCategory === cat
-                  ? 'bg-[#4CAF50] text-white shadow-md scale-105'
+                  ? 'bg-[#4CAF50] text-white shadow-md scale-[1.02]'
                   : 'bg-white dark:bg-[#1e3422] text-gray-700 dark:text-gray-200 hover:bg-[#C8E6C9]/40 dark:hover:bg-green-900/50 border border-gray-200 dark:border-green-800/60'
               }`}
             >
@@ -62,102 +62,85 @@ export const Projects: React.FC<ProjectsProps> = ({
 
         {/* 3-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => {
-            const progressPercent = Math.min(100, Math.round((project.raised / project.goal) * 100));
+          {filteredProjects.map((project) => (
+            <div
+              key={project.id}
+              className="bg-white dark:bg-[#1a2e1e] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-[#C8E6C9] dark:border-green-800/60 flex flex-col transition-all duration-1000 ease-in-out hover:-translate-y-0.5 group"
+            >
+              {/* Image Banner */}
+              <div className="relative h-52 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                <img
+                  src={project.imageUrl}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-[1200ms] ease-in-out group-hover:scale-[1.02]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                
+                {/* Category Badge */}
+                <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#2E7D32]/90 backdrop-blur-sm text-white font-heading font-semibold text-xs shadow">
+                  {project.category}
+                </span>
 
-            return (
-              <div
-                key={project.id}
-                className="bg-white dark:bg-[#1a2e1e] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-[#C8E6C9] dark:border-green-800/60 flex flex-col transition-all duration-300 hover:-translate-y-1 group"
-              >
-                {/* Image Banner */}
-                <div className="relative h-52 overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  
-                  {/* Category Badge */}
-                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#2E7D32]/90 backdrop-blur-sm text-white font-heading font-semibold text-xs shadow">
-                    {project.category}
-                  </span>
-
-                  {/* Icon Badge */}
-                  <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white dark:bg-[#1a2e1e] text-[#4CAF50] flex items-center justify-center shadow-md">
-                    <IconRenderer name={project.iconName} className="w-5 h-5" />
-                  </div>
-
-                  {/* Location Overlay */}
-                  <div className="absolute bottom-3 left-4 right-4 flex items-center gap-1.5 text-white/90 text-xs">
-                    <MapPin className="w-3.5 h-3.5 shrink-0 text-[#4CAF50]" />
-                    <span className="truncate">{project.location}</span>
-                  </div>
+                {/* Icon Badge */}
+                <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white dark:bg-[#1a2e1e] text-[#4CAF50] flex items-center justify-center shadow-md">
+                  <IconRenderer name={project.iconName} className="w-5 h-5" />
                 </div>
 
-                {/* Card Content */}
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                  <div>
-                    {/* Impact Metric Highlight */}
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#C8E6C9]/50 dark:bg-[#2E7D32]/30 text-[#2E7D32] dark:text-[#C8E6C9] text-xs font-semibold mb-3">
-                      <Users className="w-3.5 h-3.5 text-[#4CAF50]" />
-                      <span>{project.impactMetric}</span>
-                    </div>
-
-                    <h3 className="font-heading font-bold text-xl text-gray-900 dark:text-white group-hover:text-[#4CAF50] transition-colors line-clamp-2">
-                      {project.title}
-                    </h3>
-                    
-                    <p className="text-gray-600 dark:text-gray-300 font-sans text-sm leading-relaxed mt-2 line-clamp-3">
-                      {project.shortDescription}
-                    </p>
-                  </div>
-
-                  {/* Fundraising Progress Bar */}
-                  <div className="pt-2 border-t border-gray-100 dark:border-green-900/40 space-y-1.5">
-                    <div className="flex items-center justify-between text-xs font-semibold">
-                      <span className="text-gray-500 dark:text-gray-400">Raised: ${project.raised.toLocaleString()}</span>
-                      <span className="text-[#4CAF50]">{progressPercent}%</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                      <div
-                        className="h-full bg-[#4CAF50] rounded-full transition-all duration-1000"
-                        style={{ width: `${progressPercent}%` }}
-                      />
-                    </div>
-                    <div className="flex justify-between text-[11px] text-gray-400">
-                      <span>Goal: ${project.goal.toLocaleString()}</span>
-                      <span>{project.beneficiaries}</span>
-                    </div>
-                  </div>
-
-                  {/* Action Footer */}
-                  <div className="pt-2 flex items-center justify-between gap-3">
-                    <button
-                      onClick={() => onOpenModal('project-details', project)}
-                      className="flex-1 py-2 px-3 rounded-xl bg-gray-100 dark:bg-green-900/30 hover:bg-gray-200 dark:hover:bg-green-900/60 text-gray-800 dark:text-gray-100 font-heading font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
-                    >
-                      <span>View Details</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        onSelectProjectForDonation(project);
-                        onOpenModal('donate');
-                      }}
-                      aria-label={`Support ${project.title}`}
-                      className="p-2.5 rounded-xl bg-[#4CAF50] hover:bg-[#45a049] text-white shrink-0 shadow hover:scale-105 active:scale-95 transition-all"
-                      title="Support this project"
-                    >
-                      <Heart className="w-4 h-4 fill-current" />
-                    </button>
-                  </div>
+                {/* Location Overlay */}
+                <div className="absolute bottom-3 left-4 right-4 flex items-center gap-1.5 text-white/90 text-xs">
+                  <MapPin className="w-3.5 h-3.5 shrink-0 text-[#4CAF50]" />
+                  <span className="truncate">{project.location}</span>
                 </div>
               </div>
-            );
-          })}
+
+              {/* Card Content */}
+              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div>
+                  {/* Impact Metric Highlight */}
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#C8E6C9]/50 dark:bg-[#2E7D32]/30 text-[#2E7D32] dark:text-[#C8E6C9] text-xs font-semibold mb-3">
+                    <Users className="w-3.5 h-3.5 text-[#4CAF50]" />
+                    <span>{project.impactMetric}</span>
+                  </div>
+
+                  <h3 className="font-heading font-bold text-xl text-gray-900 dark:text-white group-hover:text-[#4CAF50] transition-colors line-clamp-2">
+                    {project.title}
+                  </h3>
+                  
+                  <p className="text-gray-600 dark:text-gray-300 font-sans text-sm leading-relaxed mt-2 line-clamp-3">
+                    {project.shortDescription}
+                  </p>
+                </div>
+
+                {/* Beneficiaries Detail */}
+                <div className="pt-3 border-t border-gray-100 dark:border-green-900/40 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 font-medium">
+                  <span className="truncate">{project.beneficiaries}</span>
+                </div>
+
+                {/* Action Footer */}
+                <div className="pt-2 flex items-center justify-between gap-3">
+                  <button
+                    onClick={() => onOpenModal('project-details', project)}
+                    className="flex-1 py-2 px-3 rounded-xl bg-gray-100 dark:bg-green-900/30 hover:bg-gray-200 dark:hover:bg-green-900/60 text-gray-800 dark:text-gray-100 font-heading font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                  >
+                    <span>View Details</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+
+                   <button
+                    onClick={() => {
+                      onSelectProjectForDonation(project);
+                      onOpenModal('donate');
+                    }}
+                    aria-label={`Support ${project.title}`}
+                    className="p-2.5 rounded-xl bg-[#4CAF50] hover:bg-[#45a049] text-white shrink-0 shadow hover:scale-[1.015] active:scale-95 transition-all duration-700 ease-in-out"
+                    title="Support this project"
+                  >
+                    <Heart className="w-4 h-4 fill-current" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Bottom Banner for custom proposal */}
@@ -170,7 +153,7 @@ export const Projects: React.FC<ProjectsProps> = ({
           </div>
           <button
             onClick={() => onOpenModal('partner')}
-            className="px-6 py-3.5 rounded-full bg-white text-[#2E7D32] hover:bg-gray-100 font-heading font-bold text-sm sm:text-base shadow-lg shrink-0 hover:scale-105 active:scale-95 transition-all"
+            className="px-6 py-3.5 rounded-full bg-white text-[#2E7D32] hover:bg-gray-100 font-heading font-bold text-sm sm:text-base shadow-lg shrink-0 hover:scale-[1.015] active:scale-95 transition-all duration-700 ease-in-out"
           >
             Partner With Us
           </button>

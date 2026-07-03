@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeartHandshake, ArrowRight, Sparkles, ShieldCheck, Globe, Users } from 'lucide-react';
+import { HeartHandshake, ArrowRight, ShieldCheck, Globe, Users } from 'lucide-react';
 import { ModalType } from '../types';
 
 interface HeroProps {
@@ -32,9 +32,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center text-white flex flex-col items-center justify-center">
         
         {/* Trust Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 dark:bg-[#4CAF50]/20 backdrop-blur-md border border-white/20 text-white dark:text-[#C8E6C9] text-xs sm:text-sm font-medium mb-6 shadow-lg animate-fade-in">
-          <Sparkles className="w-4 h-4 text-[#4CAF50] animate-spin-slow" />
-          <span>Registered 501(c)(3) & FCRA Compliant Non-Profit Organization</span>
+        <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 dark:bg-[#4CAF50]/20 backdrop-blur-md border border-white/20 text-white dark:text-[#C8E6C9] text-xs sm:text-sm font-medium mb-6 shadow-lg animate-fade-in">
+          <span>80G & 12A Certified | NGO DARPAN | ISO 9001:2015 Registered Non-Profit</span>
         </div>
 
         {/* Main Headline (H1) */}
@@ -47,23 +46,23 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
 
         {/* Subtext */}
         <p className="font-sans text-lg sm:text-xl md:text-2xl text-gray-100 dark:text-gray-200 font-normal max-w-3xl leading-relaxed mb-10 drop-shadow">
-          Join us in creating sustainable, generational change through grassroots education, mobile healthcare, clean drinking water, and rural livelihood initiatives.
+          Join us in creating sustainable social impact across India through Project Seva, Bachpanshala, Jeev, Udaan, Prakriti, and Vikas.
         </p>
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
           <button
             onClick={() => onOpenModal('volunteer')}
-            className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#4CAF50] hover:bg-[#45a049] text-white font-heading font-bold text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300"
+            className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#4CAF50] hover:bg-[#45a049] text-white font-heading font-bold text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-[1.015] active:scale-95 transition-all duration-700 ease-in-out"
           >
-            <HeartHandshake className="w-5 h-5 transition-transform group-hover:rotate-12" />
+            <HeartHandshake className="w-5 h-5 transition-transform duration-700 ease-in-out group-hover:rotate-12" />
             <span>Join Our Mission</span>
-            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="w-5 h-5 transition-transform duration-700 ease-in-out group-hover:translate-x-1" />
           </button>
 
           <button
             onClick={scrollToAbout}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white/15 hover:bg-white/25 dark:bg-black/30 dark:hover:bg-black/50 backdrop-blur-md border border-white/30 text-white font-heading font-semibold text-base sm:text-lg shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white/15 hover:bg-white/25 dark:bg-black/30 dark:hover:bg-black/50 backdrop-blur-md border border-white/30 text-white font-heading font-semibold text-base sm:text-lg shadow-lg hover:scale-[1.015] active:scale-95 transition-all duration-700 ease-in-out"
           >
             <span>Learn More</span>
           </button>
@@ -71,28 +70,28 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
 
         {/* Quick Impact Highlight Bento Boxes */}
         <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-4xl">
-          <div className="p-5 rounded-2xl bg-white/10 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-green-800/40 flex flex-col items-center justify-center shadow-lg transition-all hover:bg-white/15">
+          <div className="p-5 rounded-2xl bg-white/10 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-green-800/40 flex flex-col items-center justify-center shadow-lg transition-all duration-700 ease-in-out hover:bg-white/15">
             <div className="flex items-center gap-1.5 text-2xl sm:text-3xl font-heading font-bold text-[#4CAF50]">
               <Users className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span>10,000+</span>
+              <span>50,000+</span>
             </div>
-            <span className="text-xs sm:text-sm text-gray-200 font-medium mt-1">Lives Directly Impacted</span>
+            <span className="text-xs sm:text-sm text-gray-200 font-medium mt-1">Meals & Clothes Distributed</span>
           </div>
 
-          <div className="p-5 rounded-2xl bg-white/10 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-green-800/40 flex flex-col items-center justify-center shadow-lg transition-all hover:bg-white/15">
+          <div className="p-5 rounded-2xl bg-white/10 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-green-800/40 flex flex-col items-center justify-center shadow-lg transition-all duration-700 ease-in-out hover:bg-white/15">
             <div className="flex items-center gap-1.5 text-2xl sm:text-3xl font-heading font-bold text-[#4CAF50]">
               <ShieldCheck className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span>50+</span>
+              <span>30,000+</span>
             </div>
-            <span className="text-xs sm:text-sm text-gray-200 font-medium mt-1">Sustainable Projects</span>
+            <span className="text-xs sm:text-sm text-gray-200 font-medium mt-1">Interns & Youth Trained</span>
           </div>
 
-          <div className="p-5 rounded-2xl bg-white/10 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-green-800/40 flex flex-col items-center justify-center shadow-lg transition-all hover:bg-white/15">
+          <div className="p-5 rounded-2xl bg-white/10 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-green-800/40 flex flex-col items-center justify-center shadow-lg transition-all duration-700 ease-in-out hover:bg-white/15">
             <div className="flex items-center gap-1.5 text-2xl sm:text-3xl font-heading font-bold text-[#4CAF50]">
               <Globe className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span>15</span>
+              <span>20,000+</span>
             </div>
-            <span className="text-xs sm:text-sm text-gray-200 font-medium mt-1">Countries Reached</span>
+            <span className="text-xs sm:text-sm text-gray-200 font-medium mt-1">Trees & Saplings Planted</span>
           </div>
         </div>
       </div>
