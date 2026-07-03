@@ -1,14 +1,14 @@
 export interface Project {
   id: string;
   title: string;
-  category: 'Education' | 'Healthcare' | 'Environment' | 'Community' | 'Clean Water';
+  category: 'Education' | 'Environment' | 'Community';
   shortDescription: string;
   fullDescription: string;
   iconName: string;
   imageUrl: string;
   impactMetric: string;
-  goal: number;
-  raised: number;
+  goal?: number;
+  raised?: number;
   beneficiaries: string;
   location: string;
   milestones: string[];

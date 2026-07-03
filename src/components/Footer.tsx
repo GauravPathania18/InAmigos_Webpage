@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, CheckCircle2, ExternalLink, Facebook, Twitter, Instagram } from 'lucide-react';
+import { Send, CheckCircle2, ExternalLink, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import { InAmigosLogo } from './InAmigosLogo';
 
 export const Footer: React.FC = () => {
@@ -58,40 +58,45 @@ export const Footer: React.FC = () => {
               </h4>
               <div className="flex items-center space-x-4 text-white">
                 <a
-                  href="#facebook"
-                  onClick={(e) => { e.preventDefault(); alert("Opening official InAmigos Facebook channel..."); }}
+                  href="https://www.facebook.com/109800320841732/posts/289306342891128/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="Facebook"
                   className="hover:text-[#4CAF50] transition-all duration-700 ease-in-out hover:scale-[1.03] font-bold"
                 >
                   <Facebook className="w-5 h-5 fill-current" />
                 </a>
                 <a
-                  href="#twitter"
-                  onClick={(e) => { e.preventDefault(); alert("Opening official InAmigos Twitter / X channel..."); }}
+                  href="https://twitter.com/InamigosF?s=08"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="Twitter"
                   className="hover:text-[#4CAF50] transition-all duration-700 ease-in-out hover:scale-[1.03] font-bold"
                 >
                   <Twitter className="w-5 h-5 fill-current" />
                 </a>
                 <a
-                  href="#gplus"
-                  onClick={(e) => { e.preventDefault(); alert("Opening official InAmigos Google channel..."); }}
-                  aria-label="Google Plus"
+                  href="https://inamigosfoundation.org.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Google"
                   className="hover:text-[#4CAF50] transition-all duration-700 ease-in-out hover:scale-[1.03] font-bold text-sm tracking-tighter"
                 >
                   G+
                 </a>
                 <a
-                  href="#pinterest"
-                  onClick={(e) => { e.preventDefault(); alert("Opening official InAmigos Pinterest board..."); }}
-                  aria-label="Pinterest"
-                  className="hover:text-[#4CAF50] transition-all duration-700 ease-in-out hover:scale-[1.03] font-bold text-base"
+                  href="https://www.linkedin.com/company/inamigos-foundation"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="hover:text-[#4CAF50] transition-all duration-700 ease-in-out hover:scale-[1.03] font-bold"
                 >
-                  P
+                  <Linkedin className="w-5 h-5 fill-current" />
                 </a>
                 <a
-                  href="#instagram"
-                  onClick={(e) => { e.preventDefault(); alert("Opening official InAmigos Instagram channel..."); }}
+                  href="https://instagram.com/inamigos?utm_medium=copy_link"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="Instagram"
                   className="hover:text-[#4CAF50] transition-all duration-700 ease-in-out hover:scale-[1.03] font-bold"
                 >

@@ -3,25 +3,27 @@ import { ThemeMode } from '../types';
 
 export function useDarkMode() {
   const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
-    const saved = localStorage.getItem('inamigos_theme_mode') as ThemeMode;
+    const saved = localStorage.getItem('inamigos_theme_mode_v3') as ThemeMode;
     if (saved && ['light', 'dark', 'system'].includes(saved)) {
       return saved;
     }
-    return 'system';
+    return 'dark';
   });
 
-  const [isDark, setIsDark] = useState<boolean>(false);
+  const [isDark, setIsDark] = useState<boolean>(true);
 
   useEffect(() => {
     const root = window.document.documentElement;
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
     const updateTheme = () => {
-      let activeDark = false;
+      let activeDark = true;
       if (themeMode === 'system') {
         activeDark = mediaQuery.matches;
+      } else if (themeMode === 'light') {
+        activeDark = false;
       } else {
-        activeDark = themeMode === 'dark';
+        activeDark = true;
       }
 
       setIsDark(activeDark);
@@ -33,7 +35,7 @@ export function useDarkMode() {
     };
 
     updateTheme();
-    localStorage.setItem('inamigos_theme_mode', themeMode);
+    localStorage.setItem('inamigos_theme_mode_v3', themeMode);
 
     const handleSystemChange = () => {
       if (themeMode === 'system') {

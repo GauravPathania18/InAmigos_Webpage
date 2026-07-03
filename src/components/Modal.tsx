@@ -508,7 +508,7 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, article, onC
                       <input
                         type="tel"
                         name="phone"
-                        placeholder="+1 (555) 000-0000"
+                        placeholder="+91 98765 43210"
                         value={formData.phone}
                         onChange={handleInputChange}
                         className="w-full px-3.5 py-2.5 rounded-xl bg-[#F5F5F5] dark:bg-[#0d1a0f] border border-[#C8E6C9] dark:border-green-800/60 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-[#4CAF50]"

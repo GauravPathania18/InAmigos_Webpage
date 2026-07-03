@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Maximize2, X, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react';
+import { ScrollReveal } from './ScrollReveal';
 
 interface GalleryItem {
   id: number;
@@ -54,44 +55,47 @@ export const Gallery: React.FC = () => {
   }, [lightboxIndex, handlePrevious, handleNext]);
 
   return (
-    <section id="gallery" className="py-20 sm:py-28 bg-white dark:bg-[#152618] transition-colors duration-300 relative">
+    <section id="gallery" className="py-10 sm:py-14 bg-transparent transition-colors duration-300 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Simple Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <span className="text-[#4CAF50] font-heading font-bold text-sm tracking-widest uppercase mb-2 flex items-center justify-center gap-2">
-            <ImageIcon className="w-4 h-4" />
-            Visual Impact
-          </span>
-          <h2 className="font-heading font-bold text-3xl sm:text-5xl text-[#2E7D32] dark:text-[#C8E6C9] tracking-tight">
-            Our Impact Gallery
-          </h2>
-          <div className="w-20 h-1.5 bg-[#4CAF50] mx-auto rounded-full mt-4" />
-        </div>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <span className="text-[#4CAF50] font-heading font-bold text-sm tracking-widest uppercase mb-2 flex items-center justify-center gap-2">
+              <ImageIcon className="w-4 h-4" />
+              Visual Impact
+            </span>
+            <h2 className="font-heading font-bold text-3xl sm:text-5xl text-[#1B5E20] dark:text-[#C8E6C9] tracking-tight">
+              Our Impact Gallery
+            </h2>
+            <div className="w-20 h-1.5 bg-[#4CAF50] mx-auto rounded-full mt-4" />
+          </div>
+        </ScrollReveal>
 
         {/* Clean 3-Column Image Grid (No Text, No Categories) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {GALLERY_ITEMS.map((item, index) => (
-            <div
-              key={item.id}
-              className="group relative aspect-[4/3] rounded-3xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-sm hover:shadow-2xl border border-[#C8E6C9]/60 dark:border-green-800/60 cursor-pointer transition-all duration-500 ease-out hover:-translate-y-1.5"
-              onClick={() => setLightboxIndex(index)}
-            >
-              <img
-                src={item.url}
-                alt="Impact gallery"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out"
-              />
+            <ScrollReveal key={item.id} direction="up" delay={0.08 * ((index % 3) + 1)}>
+              <div
+                className="group relative aspect-[4/3] rounded-3xl overflow-hidden bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-md hover:shadow-2xl border border-[#4CAF50]/30 dark:border-green-800/60 cursor-pointer transition-all duration-500 ease-out hover:-translate-y-1.5"
+                onClick={() => setLightboxIndex(index)}
+              >
+                <img
+                  src={item.url}
+                  alt="Impact gallery"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out"
+                />
 
-              {/* Subtle Hover Overlay with Zoom Icon */}
-              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div className="w-12 h-12 rounded-full bg-white/90 dark:bg-[#1a2e1e]/90 text-[#2E7D32] dark:text-white flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                  <Maximize2 className="w-5 h-5" />
+                {/* Subtle Hover Overlay with Zoom Icon */}
+                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-white/90 dark:bg-[#1a2e1e]/90 text-[#2E7D32] dark:text-white flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                    <Maximize2 className="w-5 h-5" />
+                  </div>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
 

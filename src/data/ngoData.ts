@@ -1,5 +1,7 @@
 import { Project, ImpactMetric, Testimonial, ImpactStory, BlogArticle } from '../types';
 import saveWaterGlobeImg from '../assets/images/save_water_globe_1783074178205.jpg';
+import projectUdaanImg from '../assets/images/project_udaan_women_silhouette.jpg';
+import projectJeevImg from '../assets/images/project_jeev_animal_welfare.jpg';
 
 export const PROJECTS_DATA: Project[] = [
   {
@@ -9,10 +11,8 @@ export const PROJECTS_DATA: Project[] = [
     shortDescription: 'Providing essential nutrition, warm clothing, and relief materials to underprivileged and marginalized families across rural and urban slums.',
     fullDescription: 'Project Seva is our flagship humanitarian initiative dedicated to eradicating hunger and dignity deprivation among the underprivileged. To date, we have distributed over 50,000+ nutritious meals and clothing kits. We operate continuous community kitchens, ration drives, and winter clothing distribution camps across India.',
     iconName: 'HeartPulse',
-    imageUrl: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80',
+    imageUrl: 'https://inamigosfoundation.org.in/public/storage/gallery/1743051438.jpg',
     impactMetric: '50,000+ Meals & Clothes Distributed',
-    goal: 50000,
-    raised: 42500,
     beneficiaries: '50,000+ individuals & families',
     location: 'Chhattisgarh & Pan-India',
     milestones: [
@@ -28,10 +28,8 @@ export const PROJECTS_DATA: Project[] = [
     shortDescription: 'Bridging educational gaps by training underprivileged children in basic digital literacy, foundational life skills, and after-school academic support.',
     fullDescription: 'Project Bachpanshala ensures that no child is left behind due to economic constraints. We establish community learning centers that train underprivileged children in foundational literacy, numeracy, digital tools, and life skills. Our volunteer educators conduct engaging interactive bootcamps and provide school enrollment assistance.',
     iconName: 'BookOpen',
-    imageUrl: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80',
+    imageUrl: 'https://inamigosfoundation.org.in/public/storage/post/1738237659.jpeg',
     impactMetric: '15,000+ Children Educated',
-    goal: 60000,
-    raised: 48000,
     beneficiaries: '15,000+ underprivileged children & youth',
     location: 'Rural & Urban Slum Centers, India',
     milestones: [
@@ -47,10 +45,8 @@ export const PROJECTS_DATA: Project[] = [
     shortDescription: 'Dedicated to animal welfare, including daily feeding, medical rescue, vaccination, and compassion advocacy for stray and abandoned animals.',
     fullDescription: 'Project Jeev recognizes that true compassion extends to all living beings. Our dedicated volunteer network feeds 50+ stray animals daily, conducts emergency rescues for injured dogs and cattle, and organizes anti-rabies vaccination drives in collaboration with local veterinary clinics.',
     iconName: 'Heart',
-    imageUrl: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=800&q=80',
+    imageUrl: projectJeevImg,
     impactMetric: '50+ Stray Animals Fed Daily',
-    goal: 25000,
-    raised: 21000,
     beneficiaries: '50+ stray animals daily & rescue cases',
     location: 'Bilaspur, Chhattisgarh & Surrounding Regions',
     milestones: [
@@ -66,10 +62,8 @@ export const PROJECTS_DATA: Project[] = [
     shortDescription: 'Empowering women by collaborating with rural self-help groups, promoting financial independence, skill development, and menstrual hygiene.',
     fullDescription: 'Project Udaan gives women the wings to fly toward economic self-reliance and dignity. We partner with rural self-help groups (SHGs) to provide vocational training in tailoring, handicrafts, and micro-entrepreneurship. Simultaneously, we lead widespread menstrual hygiene awareness campaigns and distribute sanitary napkins.',
     iconName: 'Users',
-    imageUrl: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80',
+    imageUrl: 'https://inamigosfoundation.org.in/public/storage/post/1738237839.jpeg',
     impactMetric: '8,000+ Women Empowered',
-    goal: 40000,
-    raised: 35200,
     beneficiaries: '8,000+ women across self-help groups',
     location: 'Chhattisgarh & Rural India',
     milestones: [
@@ -87,8 +81,6 @@ export const PROJECTS_DATA: Project[] = [
     iconName: 'Trees',
     imageUrl: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80',
     impactMetric: '20,000+ Saplings Planted',
-    goal: 35000,
-    raised: 31000,
     beneficiaries: 'Communities across multiple green corridors',
     location: 'Pan-India Eco-Restoration Zones',
     milestones: [
@@ -104,10 +96,8 @@ export const PROJECTS_DATA: Project[] = [
     shortDescription: 'Facilitating employment through skill development and structured internships, having trained 30,000+ interns across diverse professional domains.',
     fullDescription: 'Project Vikas bridges the gap between academic education and real-world employability. Over the last four years, we have trained 30,000+ interns in practical domains including data operations, finance, research, content writing, digital marketing, and social work—transforming youth into confident industry professionals and community leaders.',
     iconName: 'GraduationCap',
-    imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80',
+    imageUrl: 'https://inamigosfoundation.org.in/public/storage/post/1740818641.jpg',
     impactMetric: '30,000+ Interns Trained',
-    goal: 45000,
-    raised: 40500,
     beneficiaries: '30,000+ youth interns across India',
     location: 'Pan-India Remote & On-Ground Centers',
     milestones: [
