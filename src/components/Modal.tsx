@@ -9,7 +9,7 @@ const renderFormattedText = (text: string) => {
     return parts.map((part, i) => {
       if (part.startsWith('**') && part.endsWith('**')) {
         return (
-          <strong key={i} className="font-semibold text-gray-950 dark:text-white">
+          <strong key={i} className="font-bold text-gray-900 dark:text-white">
             {part.slice(2, -2)}
           </strong>
         );
@@ -18,121 +18,108 @@ const renderFormattedText = (text: string) => {
     });
   };
 
-  return text.split('\n\n').map((block, idx) => {
-    if (block.startsWith('### ')) {
-      return (
+  const lines = text.split('\n');
+  const elements: React.ReactNode[] = [];
+  let currentParagraph: string[] = [];
+
+  const flushParagraph = () => {
+    if (currentParagraph.length > 0) {
+      const pText = currentParagraph.join(' ').trim();
+      if (pText) {
+        elements.push(
+          <p
+            key={`p-${elements.length}`}
+            className="text-sm sm:text-base text-[#333333] dark:text-gray-300 font-sans leading-relaxed my-3.5"
+          >
+            {parseInline(pText)}
+          </p>
+        );
+      }
+      currentParagraph = [];
+    }
+  };
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      flushParagraph();
+      return;
+    }
+
+    if (trimmed.startsWith('### ')) {
+      flushParagraph();
+      elements.push(
         <h3
-          key={idx}
-          className="font-heading font-bold text-xl sm:text-2xl text-[#2E7D32] dark:text-[#C8E6C9] mt-8 mb-4 border-b border-gray-200 dark:border-green-800/40 pb-2.5"
+          key={`h3-${elements.length}`}
+          className="font-heading font-bold text-lg sm:text-xl text-[#2E7D32] dark:text-[#4CAF50] mt-6 mb-3 pt-2 border-b border-gray-200 dark:border-green-900/40 pb-2"
         >
-          {parseInline(block.replace('### ', ''))}
+          {parseInline(trimmed.replace('### ', ''))}
         </h3>
       );
+      return;
     }
-    if (block.startsWith('#### ')) {
-      return (
+
+    if (trimmed.startsWith('#### ')) {
+      flushParagraph();
+      elements.push(
         <h4
-          key={idx}
-          className="font-heading font-bold text-lg sm:text-xl text-gray-900 dark:text-white mt-6 mb-3"
+          key={`h4-${elements.length}`}
+          className="font-heading font-semibold text-base sm:text-lg text-gray-900 dark:text-white mt-5 mb-2.5"
         >
-          {parseInline(block.replace('#### ', ''))}
+          {parseInline(trimmed.replace('#### ', ''))}
         </h4>
       );
+      return;
     }
 
-    const lines = block.split('\n');
-    const isList = lines.some(
-      (l) =>
-        l.trim().startsWith('•') ||
-        l.trim().startsWith('✅') ||
-        l.trim().match(/^\d+\./) ||
-        l.trim().startsWith('#### ') ||
-        l.trim().startsWith('### ')
-    );
-
-    if (isList || lines.length > 1) {
-      return (
-        <div key={idx} className="space-y-3 my-4">
-          {lines.map((line, lIdx) => {
-            const trimmed = line.trim();
-            if (!trimmed) return null;
-            if (trimmed.startsWith('•') || trimmed.startsWith('✅')) {
-              const icon = trimmed.startsWith('✅') ? '✅' : '•';
-              const content = trimmed.slice(icon.length).trim();
-              return (
-                <div
-                  key={lIdx}
-                  className="flex items-start gap-3 text-[#333333] dark:text-gray-300 font-sans text-sm sm:text-base leading-relaxed"
-                >
-                  <span
-                    className={
-                      icon === '•'
-                        ? 'text-[#4CAF50] font-bold text-xl leading-none mt-0.5'
-                        : 'mt-1 shrink-0'
-                    }
-                  >
-                    {icon === '•' ? '•' : '✅'}
-                  </span>
-                  <div className="flex-1">{parseInline(content)}</div>
-                </div>
-              );
+    if (trimmed.startsWith('•') || trimmed.startsWith('✅')) {
+      flushParagraph();
+      const icon = trimmed.startsWith('✅') ? '✅' : '•';
+      const content = trimmed.slice(icon.length).trim();
+      elements.push(
+        <div
+          key={`list-${elements.length}`}
+          className="flex items-start gap-3 my-2 text-sm sm:text-base text-[#333333] dark:text-gray-300 font-sans leading-relaxed pl-1 sm:pl-2"
+        >
+          <span
+            className={
+              icon === '•'
+                ? 'text-[#4CAF50] font-bold text-lg leading-none mt-1 shrink-0'
+                : 'mt-0.5 shrink-0 text-base'
             }
-            if (trimmed.startsWith('### ')) {
-              return (
-                <h3
-                  key={lIdx}
-                  className="font-heading font-bold text-xl sm:text-2xl text-[#2E7D32] dark:text-[#C8E6C9] mt-8 mb-4 border-b border-gray-200 dark:border-green-800/40 pb-2.5"
-                >
-                  {parseInline(trimmed.replace('### ', ''))}
-                </h3>
-              );
-            }
-            if (trimmed.startsWith('#### ')) {
-              return (
-                <h4
-                  key={lIdx}
-                  className="font-heading font-bold text-lg sm:text-xl text-gray-900 dark:text-white mt-6 mb-3"
-                >
-                  {parseInline(trimmed.replace('#### ', ''))}
-                </h4>
-              );
-            }
-            if (trimmed.match(/^\d+\.\s/)) {
-              const match = trimmed.match(/^(\d+\.)\s(.*)/);
-              if (match) {
-                return (
-                  <div
-                    key={lIdx}
-                    className="flex items-start gap-3 text-[#333333] dark:text-gray-300 font-sans text-sm sm:text-base leading-relaxed mt-2"
-                  >
-                    <span className="font-bold text-[#4CAF50] shrink-0 mt-0.5">{match[1]}</span>
-                    <div className="flex-1">{parseInline(match[2])}</div>
-                  </div>
-                );
-              }
-            }
-            return (
-              <p
-                key={lIdx}
-                className="text-[#333333] dark:text-gray-300 font-sans text-sm sm:text-base leading-relaxed"
-              >
-                {parseInline(trimmed)}
-              </p>
-            );
-          })}
+          >
+            {icon}
+          </span>
+          <div className="flex-1">{parseInline(content)}</div>
         </div>
       );
+      return;
     }
 
-    return (
-      <p
-        key={idx}
-        className="text-[#333333] dark:text-gray-300 font-sans text-sm sm:text-base leading-relaxed my-4"
-      >
-        {parseInline(block)}
-      </p>
-    );
+    const numMatch = trimmed.match(/^(\d+\.)\s*(.*)/);
+    if (numMatch) {
+      flushParagraph();
+      elements.push(
+        <div
+          key={`num-${elements.length}`}
+          className="flex items-start gap-3 my-2 text-sm sm:text-base text-[#333333] dark:text-gray-300 font-sans leading-relaxed pl-1 sm:pl-2"
+        >
+          <span className="font-bold text-[#2E7D32] dark:text-[#4CAF50] shrink-0 mt-0.5 min-w-[1.5rem]">
+            {numMatch[1]}
+          </span>
+          <div className="flex-1">{parseInline(numMatch[2])}</div>
+        </div>
+      );
+      return;
+    }
+
+    currentParagraph.push(trimmed);
   });
+
+  flushParagraph();
+
+  return <div className="space-y-1">{elements}</div>;
 };
 
 interface ModalProps {
@@ -720,7 +707,9 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, article, onC
 
                   <div>
                     <h5 className="font-heading font-bold text-sm text-[#2E7D32] dark:text-white mb-2">About This Initiative</h5>
-                    <p className="text-sm text-[#333333] dark:text-gray-300 leading-relaxed font-sans">{project.fullDescription}</p>
+                    <div className="text-sm sm:text-base text-[#333333] dark:text-gray-300 leading-relaxed font-sans">
+                      {renderFormattedText(project.fullDescription)}
+                    </div>
                   </div>
 
                   <div className="p-4 rounded-2xl bg-[#C8E6C9]/30 dark:bg-[#1e3822]/40 border border-[#C8E6C9] dark:border-green-800/60">
@@ -779,8 +768,8 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, article, onC
                     </div>
                   </div>
 
-                  <div className="prose dark:prose-invert max-w-none text-sm text-[#333333] dark:text-gray-300 leading-relaxed font-sans whitespace-pre-line">
-                    {story.fullContent}
+                  <div className="text-sm sm:text-base text-[#333333] dark:text-gray-300 leading-relaxed font-sans">
+                    {renderFormattedText(story.fullContent)}
                   </div>
 
                   <div className="p-4 rounded-2xl bg-[#F5F5F5] dark:bg-[#0d1a0f] border border-[#C8E6C9] dark:border-green-800/60 flex items-center justify-between">
