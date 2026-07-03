@@ -156,7 +156,7 @@ export const BLOG_ARTICLES_DATA: BlogArticle[] = [
     commentsCount: 0,
     viewsCount: 6408,
     readTime: '4 min read',
-    imageUrl: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://inamigosfoundation.org.in/public/storage/post/1740818641.jpg',
     summary: 'For the past four years, InAmigos Foundation has been committed to empowering young minds through Project Vikas, an initiative that has revolutionized internship opportunities across various domains.',
     fullContent: `For the past four years, InAmigos Foundation has been committed to empowering young minds through Project Vikas, an initiative that has revolutionized internship opportunities across various domains. With a vision to bridge the gap between education and employability, we have successfully provided 1,000+ internship opportunities, engaged with 100,000+ interns, and onboarded 30,000+ interns into diverse fields.
 
