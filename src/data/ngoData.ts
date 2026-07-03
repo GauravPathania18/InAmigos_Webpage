@@ -45,7 +45,7 @@ export const PROJECTS_DATA: Project[] = [
     shortDescription: 'Dedicated to animal welfare, including daily feeding, medical rescue, vaccination, and compassion advocacy for stray and abandoned animals.',
     fullDescription: 'Project Jeev recognizes that true compassion extends to all living beings. Our dedicated volunteer network feeds 50+ stray animals daily, conducts emergency rescues for injured dogs and cattle, and organizes anti-rabies vaccination drives in collaboration with local veterinary clinics.',
     iconName: 'Heart',
-    imageUrl: projectJeevImg,
+    imageUrl: 'https://inamigosfoundation.org.in/public/storage/gallery/1690908380.jpg',
     impactMetric: '50+ Stray Animals Fed Daily',
     beneficiaries: '50+ stray animals daily & rescue cases',
     location: 'Bilaspur, Chhattisgarh & Surrounding Regions',
