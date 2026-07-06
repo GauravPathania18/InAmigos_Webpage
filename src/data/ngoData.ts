@@ -111,7 +111,7 @@ export const PROJECTS_DATA: Project[] = [
 export const IMPACT_METRICS: ImpactMetric[] = [
   {
     id: 'stat-1',
-    value: '50K+',
+    value: '50,000+',
     numericValue: 50000,
     suffix: '+',
     label: 'Meals & Clothes Distributed',
@@ -120,7 +120,7 @@ export const IMPACT_METRICS: ImpactMetric[] = [
   },
   {
     id: 'stat-2',
-    value: '30K+',
+    value: '30,000+',
     numericValue: 30000,
     suffix: '+',
     label: 'Interns & Youth Trained',
@@ -129,7 +129,7 @@ export const IMPACT_METRICS: ImpactMetric[] = [
   },
   {
     id: 'stat-3',
-    value: '20K+',
+    value: '20,000+',
     numericValue: 20000,
     suffix: '+',
     label: 'Saplings Planted',

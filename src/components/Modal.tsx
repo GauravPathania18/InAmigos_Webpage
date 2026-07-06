@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Heart, HeartHandshake, Handshake, Share2, CheckCircle2, DollarSign, Calendar, MapPin, Users, Award, ShieldCheck, Sparkles, Copy, Check, Eye, MessageSquare, AlignLeft } from 'lucide-react';
+import { X, Heart, HeartHandshake, Handshake, Share2, CheckCircle2, DollarSign, IndianRupee, Calendar, MapPin, Users, Award, ShieldCheck, Sparkles, Copy, Check, Eye, MessageSquare, AlignLeft } from 'lucide-react';
 import { ModalType, Project, ImpactStory, BlogArticle } from '../types';
 import { IconRenderer } from './IconRenderer';
 
@@ -169,7 +169,7 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, article, onC
     setTimeout(() => setCopied(false), 2500);
   };
 
-  const presetAmounts = [25, 50, 100, 250, 500];
+  const presetAmounts = [20, 50, 100, 200, 500];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto">
@@ -288,7 +288,7 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, article, onC
                   {/* Amount Selection */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-[#757575] dark:text-gray-400 mb-2.5">
-                      Select Contribution Amount (USD)
+                      Select Contribution Amount (INR)
                     </label>
                     <div className="grid grid-cols-3 sm:grid-cols-5 gap-2.5 mb-3">
                       {presetAmounts.map((amt) => (
@@ -305,14 +305,14 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, article, onC
                               : 'bg-white dark:bg-[#1a2e1e] text-[#2E7D32] dark:text-gray-200 border-[#C8E6C9] dark:border-green-800/60 hover:border-[#4CAF50]'
                           }`}
                         >
-                          ${amt}
+                          ₹{amt}
                         </button>
                       ))}
                     </div>
 
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#757575]">
-                        <DollarSign className="w-4 h-4" />
+                        <IndianRupee className="w-4 h-4" />
                       </div>
                       <input
                         type="number"
@@ -331,14 +331,16 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, article, onC
                   <div className="p-4 rounded-2xl bg-[#C8E6C9]/40 dark:bg-[#1e3822]/60 border border-[#C8E6C9] dark:border-green-800/60 flex items-center gap-3 text-xs text-[#2E7D32] dark:text-[#C8E6C9]">
                     <ShieldCheck className="w-5 h-5 shrink-0 text-[#4CAF50]" />
                     <span>
-                      <strong>Your ${donationAmount || 0} gift</strong> will provide{' '}
-                      {donationAmount >= 250
+                      <strong>Your ₹{donationAmount || 0} gift</strong> will provide{' '}
+                      {donationAmount >= 500
                         ? 'a full solar filtration kit for an entire village community.'
-                        : donationAmount >= 100
+                        : donationAmount >= 200
                         ? '10 rural students with digital tablets and learning software for a full academic year.'
-                        : donationAmount >= 50
+                        : donationAmount >= 100
                         ? 'essential maternal medicine checkups and nutrition for 5 expectant mothers.'
-                        : 'pure filtered drinking water for a family of 5 for six months.'}
+                        : donationAmount >= 50
+                        ? 'pure filtered drinking water for a family of 5 for six months.'
+                        : 'educational stationery and books for a needy student.'}
                     </span>
                   </div>
 
@@ -454,7 +456,7 @@ export const Modal: React.FC<ModalProps> = ({ type, project, story, article, onC
                     className="w-full px-6 py-4 rounded-2xl bg-gradient-to-r from-[#4CAF50] to-[#2E7D32] hover:from-[#45a049] hover:to-[#256327] text-white font-heading font-bold text-base shadow-xl hover:shadow-2xl hover:scale-[1.01] active:scale-95 transition-all duration-700 ease-in-out flex items-center justify-center gap-2"
                   >
                     <Heart className="w-5 h-5 fill-current shrink-0" />
-                    <span>Complete Tax-Deductible Donation (${donationAmount || 0})</span>
+                    <span>Complete Tax-Deductible Donation (₹{donationAmount || 0})</span>
                   </button>
                 </form>
               )}

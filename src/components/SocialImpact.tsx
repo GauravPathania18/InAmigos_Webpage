@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IMPACT_METRICS, BLOG_ARTICLES_DATA } from '../data/ngoData';
 import { ImpactStory, BlogArticle } from '../types';
 import { IconRenderer } from './IconRenderer';
@@ -10,10 +10,84 @@ interface SocialImpactProps {
   onSelectArticle?: (article: BlogArticle) => void;
 }
 
+const AnimatedCounter: React.FC<{ target?: number; fallback: string; suffix?: string; duration?: number }> = ({
+  target,
+  fallback,
+  suffix = '',
+  duration = 2200,
+}) => {
+  const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const elementRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasAnimated]);
+
+  useEffect(() => {
+    if (!hasAnimated || typeof target !== 'number') return;
+
+    let startTime: number | null = null;
+    let animationFrameId: number;
+
+    const updateCount = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+      const percentage = Math.min(progress / duration, 1);
+
+      // Smooth ease out cubic deceleration
+      const easeOut = 1 - Math.pow(1 - percentage, 3);
+      const currentVal = Math.floor(easeOut * target);
+
+      setCount(currentVal);
+
+      if (percentage < 1) {
+        animationFrameId = requestAnimationFrame(updateCount);
+      } else {
+        setCount(target);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(updateCount);
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [hasAnimated, target, duration]);
+
+  if (typeof target !== 'number') {
+    return <span>{fallback}</span>;
+  }
+
+  const formattedCount = count.toLocaleString('en-IN');
+
+  return (
+    <span ref={elementRef} className="inline-block tabular-nums">
+      {formattedCount}{suffix}
+    </span>
+  );
+};
+
 const CORE_REACH_METRICS = [
   {
     id: 'reach-1',
     value: '200+',
+    numericValue: 200,
+    suffix: '+',
     label: 'OUR VOLUNTEERS',
     icon: Users,
     description: 'Dedicated grassroots changemakers',
@@ -21,6 +95,8 @@ const CORE_REACH_METRICS = [
   {
     id: 'reach-2',
     value: '28',
+    numericValue: 28,
+    suffix: '',
     label: 'STATES',
     icon: User,
     description: 'Active presence across the nation',
@@ -28,6 +104,8 @@ const CORE_REACH_METRICS = [
   {
     id: 'reach-3',
     value: '6',
+    numericValue: 6,
+    suffix: '',
     label: 'OUR CAUSES',
     icon: Banknote,
     description: 'Education, health, climate & more',
@@ -35,6 +113,8 @@ const CORE_REACH_METRICS = [
   {
     id: 'reach-4',
     value: '50,000+',
+    numericValue: 50000,
+    suffix: '+',
     label: 'BENEFICIARIES',
     icon: Gift,
     description: 'Directly supported families & youth',
@@ -83,7 +163,7 @@ export const SocialImpact: React.FC<SocialImpactProps> = ({ onSelectArticle }) =
                       <IconComponent className="w-7 h-7" />
                     </div>
                     <span className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight mb-1">
-                      {item.value}
+                      <AnimatedCounter target={item.numericValue} fallback={item.value} suffix={item.suffix} />
                     </span>
                     <span className="text-xs sm:text-sm font-bold tracking-widest text-gray-300 dark:text-gray-200 uppercase mt-1">
                       {item.label}
@@ -114,7 +194,7 @@ export const SocialImpact: React.FC<SocialImpactProps> = ({ onSelectArticle }) =
                   </div>
 
                   <span className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight mb-1">
-                    {metric.value}
+                    <AnimatedCounter target={metric.numericValue} fallback={metric.value} suffix={metric.suffix} />
                   </span>
 
                   <span className="text-xs sm:text-sm font-bold tracking-widest text-gray-300 dark:text-gray-200 uppercase mt-1">
